@@ -29,21 +29,27 @@ def ping_sites
 end
 
 def ping(url)
-  LOG.info "Pinging #{url}..."
-  LOG.info "HTTP method: #{ENV['PING_METHOD'].to_s.upcase}"
+  count = 0
+  num_pings = Random.rand(10)
 
-  resp = request(url, ENV['PING_METHOD'].downcase.to_sym)
-  if resp.nil?
-    LOG.error "Ping failed"
-  elsif resp.code =~ /^[1-3][0-9]{2}$/ # Valid codes [100-399]
-    LOG.info "Status code: (#{resp.code})"
-  else
-    headers = ''
-    resp.each_header { | k, v | headers << "\n#{k} = #{v}" }
+  while count < num_pings do
+    LOG.info "Pinging #{url} #{num_pings} times..."
+    LOG.info "HTTP method: #{ENV['PING_METHOD'].to_s.upcase}"
 
-    LOG.error "Status code: (#{resp.code})"
-    LOG.error "Response headers:#{headers}"
-    LOG.error "Response body:\n#{resp.body}" unless resp.body.nil?
+    resp = request(url, ENV['PING_METHOD'].downcase.to_sym)
+    if resp.nil?
+      LOG.error "Ping failed"
+    elsif resp.code =~ /^[1-3][0-9]{2}$/ # Valid codes [100-399]
+      LOG.info "Status code: (#{resp.code})"
+    else
+      headers = ''
+      resp.each_header { | k, v | headers << "\n#{k} = #{v}" }
+
+      LOG.error "Status code: (#{resp.code})"
+      LOG.error "Response headers:#{headers}"
+      LOG.error "Response body:\n#{resp.body}" unless resp.body.nil?
+    end
+    count +=1
   end
 end
 
