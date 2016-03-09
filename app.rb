@@ -33,15 +33,15 @@ def ping(url)
   num_pings = Random.rand(10)
   toss_up = Random.rand(100)
 
+  if toss_up == 42
+    LOG.info "FORTY TWO!!!!(*#&(*"
+    num_pings = num_pings * Random.rand(10)
+  end
+  
+  LOG.info "Pinging #{url} #{num_pings} times..."
+  LOG.info "HTTP method: #{ENV['PING_METHOD'].to_s.upcase}"
+  
   while count < num_pings do
-    if toss_up == 42
-      LOG.info "FORTY TWO!!!!!!#)&$"
-      num_pings = num_pings * Random.rand(10)
-    end
-
-    LOG.info "Pinging #{url} #{num_pings} times..."
-    LOG.info "HTTP method: #{ENV['PING_METHOD'].to_s.upcase}"
-
     resp = request(url, ENV['PING_METHOD'].downcase.to_sym)
     if resp.nil?
       LOG.error "Ping failed"
