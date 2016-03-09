@@ -35,6 +35,7 @@ def ping(url)
 
   while count < num_pings do
     if toss_up == 42
+      LOG.info "FORTY TWO!!!!!!#)&$"
       num_pings = num_pings * Random.rand(10)
     end
 
