@@ -31,8 +31,13 @@ end
 def ping(url)
   count = 0
   num_pings = Random.rand(10)
+  toss_up = Random.rand(100)
 
   while count < num_pings do
+    if toss_up == 42
+      num_pings = num_pings * Random.rand(10)
+    end
+
     LOG.info "Pinging #{url} #{num_pings} times..."
     LOG.info "HTTP method: #{ENV['PING_METHOD'].to_s.upcase}"
 
